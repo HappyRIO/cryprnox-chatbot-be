@@ -29,22 +29,22 @@ class Indexer:
   
         return links
     
-    def get_wordpress_sitemap(self, url):
-        response = requests.get(url)
+    # def get_wordpress_sitemap(self, url):
+    #     response = requests.get(url)
 
-        soup = BeautifulSoup(response.content, "lxml")
+    #     soup = BeautifulSoup(response.content, "lxml")
 
-        links = []
+    #     links = []
 
-        # table = soup.find(id='sitemap')
-        # print(f"table====={table}")
-        urls = soup.find_all("a")
-        print(f"====urls==={urls}")
-        for link in urls:  
-            href = link.get("href")
-            links.append(href)
-        print(f"link========={links}")
-        return links
+    #     # table = soup.find(id='sitemap')
+    #     # print(f"table====={table}")
+    #     urls = soup.find_all("a")
+    #     print(f"====urls==={urls}")
+    #     for link in urls:  
+    #         href = link.get("href")
+    #         links.append(href)
+    #     print(f"link========={links}")
+    #     return links
         
     def get_html_body_content(self, url):
         response = requests.get(url)
@@ -58,7 +58,6 @@ class Indexer:
         return inner_text
   
     def index_website(self, website_url):
-        # limit = 5
         links = self.get_html_sitemap(website_url)
         # print(f"===links=index_website===/n{links}")
         for link in links:
@@ -68,10 +67,7 @@ class Indexer:
                 self.add_html_to_vectordb(content, link)
             except:
                 print("unable to process: " + link)
-  
-    # https://huggingface.co/spaces/mteb/leaderboard
-    # https://huggingface.co/embaas/sentence-transformers-e5-large-v2
-    # sentence_transformer_model = SentenceTransformer('embaas/sentence-transformers-e5-large-v2')
+
   
     def add_html_to_vectordb(self, content, path):
         text_splitter = RecursiveCharacterTextSplitter(
@@ -91,6 +87,6 @@ class Indexer:
             'text': text,
             'path': path
         }
-        print(f"--------------------------------{self.milvus_collection_name}")
+
         self.milvus_client.insert(self.milvus_collection_name, data=[row])
   

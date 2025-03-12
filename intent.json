@@ -1,0 +1,51 @@
+{
+    "intents": {
+        "greeting_intent": {
+            "patterns": [
+                "how are you",
+                "howdy",
+                "hiya",
+                "good morning",
+                "good afternoon",
+                "good evening",
+                "good day",
+                "greetings",
+                "what's up",
+                "whats up",
+                "how r u",
+                "how are u",
+                "how is it going",
+                "how is everything",
+                "how is life",
+                "long time no see",
+                "long time no talk",
+                "hi how are you",
+                "hello how are you"
+            ],
+            "responses": [
+                "Hello! How can I assist you today?",
+                "Hi! What's on your mind?",
+                "Hey! How are you doing?"
+            ]
+        },
+        "introduction_intent": {
+            "patterns": [
+                "who.*are.*you",
+                "what.*is.*your.*name",
+                "introduce.*yourself"
+            ],
+            "responses": [
+                "I'm an assistant for the Cryptnox website. How can I help you?",
+                "I'm here to assist you with any information you need."
+            ]
+        },
+        "price_intent": {
+            "patterns": [
+                "price"
+            ],
+            "responses": [
+                "[{\"name\": \"Cryptnox Crypto Hardware Wallet\", \"price\": \"SFr. 79.00\"}, {\"name\": \"Cryptnox FIDO2 Key Secure Passwordless Authentication Data Protection\", \"price\": \"SFr. 39.90\"}, {\"name\": \"Cryptnox RFID/NFC Contactless Blocking Card\", \"price\": \"SFr. 9.00\"}, {\"name\": \"Cryptnox USB Smart Card CAC Reader for Computer\", \"description\": \"Compatible with Windows 10 and Linux - Common Access Card Reader - USB 2.0 Full Speed - PC/SC 2.0 Standard\", \"price\": \"SFr. 17.16\"}]"
+            ]
+        }
+    }
+}
