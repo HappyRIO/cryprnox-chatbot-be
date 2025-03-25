@@ -40,20 +40,20 @@ class Message(BaseModel):
 class MessageRequest(BaseModel):
     msg: List[Message]
 
+class IndexRequest(BaseModel):
+    url: str
+
 @app.post("/api/search")
 async def search(inp: MessageRequest):
-    # db_result = chat_database.query_database(msg)
     print(f"💬 User: {inp.msg}")
-    # if db_result:
-    #     return StreamingResponse(db_result, media_type='text/event-stream')
 
     search_result = searchEngine.search(inp.msg)
 
     return StreamingResponse(search_result, media_type='text/event-stream')
 
 @app.post("/api/create_index")
-async def create_index(msg):
-    indexer.index_website(msg)
+async def create_index(inp: IndexRequest):
+    indexer.index_website(inp.url)
     return {"message": "✅ Indexing complete"}
 
 # Serve static files

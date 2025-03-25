@@ -9,7 +9,7 @@ import pandas as pd
 from os import getenv
 
 class SearchEngine:
-    def __init__(self, index_file="faiss_index.bin", metadata_file="metadata.csv"):
+    def __init__(self, index_file, metadata_file):
         self.index_file = index_file
         self.metadata_file = metadata_file
         self.file_path = "intent.json"
@@ -63,45 +63,56 @@ class SearchEngine:
         intent = self.match_greeting_intent(user_query, intents)
         print(f"intent: {intent}")
 
-        if intent == "greeting_intent" or intent == "introduction_intent" or intent == "end_intent":
+        if intent == "greeting_intent" or intent == "introduction_intent":
             response = self.response_to_intent(intent, intents)
             texts = response.split(" ")
             for text in texts:
                 yield f"{text} "
         else:
             additional_info = ""
-
-            if intent == "price_intent":
-                response = self.response_to_intent(intent, intents)
-                additional_info = response
             
             embedding = create_embedding(user_query)        
             result = self.query_vector_db(embedding)
 
             knowledge_base = "\n".join(result['list_of_knowledge_base'])
-            print(f"knowledge_base: {knowledge_base[:100]}")
+            print(f"knowledge_base: {knowledge_base[:50]}")
 
             system_content = """You are an assistant for the Cryptnox website.
             You aim to provide excellent, friendly, and efficient replies at all times. 
             Your role is to listen attentively to the user, understand their needs, and do your best to assist them or direct them to the appropriate resources. 
             Respond with simple, direct answers.
             Base all responses on verified information from the knowledge base. Double-check facts to ensure reliability.
-            Please answer shortly and clearly.
+            # Maintain contextual awareness. Consider carefully what was discussed in the previous conversation and provide a response that is relevant to it.
+            # If the user responds with confirmation or understanding, such as "Okay," "Got it," "I see," or similar phrases, end the conversation.
+            # When providing a website link, use a format that opens it in a new tab but ensure {:target="_blank"} is not visible in the displayed text.
             """
 
             additional_info += """Users can buy the Cryptonox card on Amazon and official website. 
+            Cryptnox official website: https://cryptnox.com
+            Cryptnox Support url: hhttps://cryptnox.com/contact/
             Cryptnox shop url: https://shop.cryptnox.com
             Amazon product url: https://www.amazon.com/dp/B0B384JCP8
-
             """
+            conversation_history = ""
+            for msg in msg[:-1]:
+                if msg.role == "user":
+                    conversation_history += f"User: {msg.content}\n"
+                elif msg.role == "assistant":
+                    conversation_history += f"Assistant: {msg.content}\n"
+            print(f"conversation_history: {conversation_history}")
+
+
             user_content = f"""
-                Knowledge Base:
-                ---
-                {additional_info}
-                {knowledge_base}
-                ---
-                User Query: {user_query}
-                Answer:
+                <Knowledge Base>
+                    {additional_info}
+                    {knowledge_base}
+                </Knowledge Base>
+                <Conversation History>
+                    {conversation_history}
+                </Conversation History>
+                <User Query>
+                    {user_query}
+                </User Query>
             """
             system_message = {"role": "system", "content": system_content}
             user_message = {"role": "user", "content": user_content}
@@ -109,7 +120,7 @@ class SearchEngine:
             client = openai.Client(api_key=getenv("OPENAI_API_KEY"))
             chatgpt_response = client.chat.completions.create(
                 model="gpt-4-turbo",
-                messages=[system_message, msg.pop(), user_message],
+                messages=[system_message, user_message],
                 stream=True
             )
 

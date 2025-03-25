@@ -27,6 +27,7 @@ class Indexer:
             print("⚠️ No existing index found. Creating a new one.")
 
     def get_html_sitemap(self, url):
+        print(f"---run---{url}")
         response = requests.get(url)
         soup = BeautifulSoup(response.content, "xml")
 
@@ -42,7 +43,20 @@ class Indexer:
         return soup.body.get_text()
 
     def index_website(self, website_url):
-        links = self.get_html_sitemap(website_url)
+        print(f"🔍 Indexing website: {website_url}")
+        shop_links = ["https://shop.cryptnox.com/",
+                "https://shop.cryptnox.com/products/walletconnect-hardware-wallet-card-dual",
+                "https://shop.cryptnox.com/products/cryptnox-fido-2-card",
+                "https://shop.cryptnox.com/products/cryptnox-rfid-nfc-contactless-blocking-card",
+                "https://shop.cryptnox.com/products/contactless-smart-card-reader-iso-14443-mifare%C2%AE-compliant-usb-type-c-and-type-a-connectivity-secure-authentication-for-e-payments-e-commerce-access-control-more",
+                "https://shop.cryptnox.com/products/cryptnox%C2%AE-usb-smart-card-cac-reader-for-computer-compatible-with-windows-10-and-linux-common-access-card-reader-usb-2-0-full-speed-pc-sc-2-0-standard",
+                ]
+        # main_links = self.get_html_sitemap(website_url)
+        with open("links.txt", "r") as file:
+            main_links = file.readlines()
+        print(main_links)
+        links = shop_links + main_links
+        print(f"🔗 Total URLs to process: {len(links)}")
         for link in links:  # Limit to 10 for demonstration
             print(f"🔗 Processing {link}")
             try:

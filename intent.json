@@ -46,52 +46,6 @@
             "responses": [
                 "[{\"name\": \"Cryptnox Crypto Hardware Wallet\", \"price\": \"SFr. 79.00\"}, {\"name\": \"Cryptnox FIDO2 Key Secure Passwordless Authentication Data Protection\", \"price\": \"SFr. 39.90\"}, {\"name\": \"Cryptnox RFID/NFC Contactless Blocking Card\", \"price\": \"SFr. 9.00\"}, {\"name\": \"Cryptnox USB Smart Card CAC Reader for Computer\", \"description\": \"Compatible with Windows 10 and Linux - Common Access Card Reader - USB 2.0 Full Speed - PC/SC 2.0 Standard\", \"price\": \"SFr. 17.16\"}]"
             ]
-        },
-        "end_intent": {
-            "patterns": [
-                "bye",
-                "goodbye",
-                "see you later",
-                "see you soon",
-                "goodbye for now",
-                "i must go",
-                "i'm done",
-                "i'm off",
-                "talk to you later",
-                "okay",
-                "ok",
-                "okay bye",
-                "ok bye",
-                "okay good bye",
-                "ok good bye",
-                "okay goodbye",
-                "ok goodbye",
-                "okay see you later",
-                "ok see you later",
-                "okay see",
-                "ok see",
-                "okay bye bye",
-                "ok bye bye",
-                "okay see you",
-                "ok see you",
-                "okay see you soon",
-                "ok see you soon",
-                "I see",
-                "I understand",
-                "I understand, goodbye",
-                "I understand, bye",
-                "I understand, see you later",
-                "I understand, see you soon",
-                "I understand, see you"
-            ],
-            "responses": [
-                "",
-                "Goodbye! Have a great day!",
-                "See you later!",
-                "Take care!",
-                "Bye! Have a nice day.",
-                "Goodbye! Take care!"
-            ]
         }
     }
 }

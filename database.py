@@ -2,10 +2,6 @@ import mysql.connector
 from datetime import datetime
 
 class ChatDatabase:
-    # def __init__(self):
-        # Initialize connection here for the class
-        # self.connection = self.connect_db()
-
     def connect_db(self):
         try:
             # Establish a new connection to the database
@@ -22,7 +18,6 @@ class ChatDatabase:
             return None
 
     def query_database(self, msg):
-        # print(f"Searching for: '{msg}'")
         connection = self.connect_db()
         if connection:
             cursor = connection.cursor()
@@ -37,10 +32,8 @@ class ChatDatabase:
                 search_results = cursor.fetchall()
 
                 if search_results:
-                    # print(search_results)
                     return search_results[0][1]
                 else:
-                    print("No results found.")
                     return ""
             except mysql.connector.Error as err:
                 print(f"Error: {err}")
@@ -70,11 +63,3 @@ class ChatDatabase:
                 connection.close()
         else:
             print("Failed to connect to the database")
-
-    # def close_connection(self):
-    #     """Clean up and close the database connection gracefully."""
-    #     if self.connection:
-    #         self.connection.close()
-    #         print("Database connection closed.")
-    #     else:
-    #         print("No connection to close.")
